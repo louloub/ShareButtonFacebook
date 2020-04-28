@@ -8,11 +8,8 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
-
 class MainActivity : AppCompatActivity() {
 
-    /*var callbackManager: CallbackManager? = null
-    var shareDialog: ShareDialog? = null*/
     var buttonFacebookShare: Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,18 +29,8 @@ class MainActivity : AppCompatActivity() {
                 val facebookUrlApp: String = getFacebookURL(this,facebookUrl)
                 facebookIntent.data = Uri.parse(facebookUrlApp)
                 this.startActivity(facebookIntent)
-                /*
-                val uri = Uri.parse("fb://facewebmodal/f?href=$url")
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri.toString()))
-                startActivity(intent)*/
             }
-
-            /*var content: ShareLinkContent? = ShareLinkContent.Builder()
-                    .setContentUrl(Uri.parse("https://developers.facebook.com"))
-                    .build()
-            val intent = intent (this,)*/
         }
-        // init()
     }
 
     fun getOpenFacebookIntent(pm: PackageManager, url: String): Intent? {
@@ -51,7 +38,6 @@ class MainActivity : AppCompatActivity() {
         try {
             val applicationInfo = pm.getApplicationInfo("com.facebook.katana", 0)
             if (applicationInfo.enabled) {
-                // http://stackoverflow.com/a/24547437/1048340
                 uri = Uri.parse("fb://facewebmodal/f?href=$url")
             }
         } catch (ignored: PackageManager.NameNotFoundException) {
@@ -75,19 +61,6 @@ class MainActivity : AppCompatActivity() {
             url // normal web url
         }
     }
-
-    /*private fun init() {
-        callbackManager = CallbackManager.Factory.create()
-        shareDialog = ShareDialog(this)
-
-        val content = ShareLinkContent.Builder()
-                .setContentUrl(Uri.parse("https://developers.facebook.com"))
-                .build()
-
-        *//*shareDialog!!.registerCallback(
-                callbackManager,
-                FacebookCallback<Sharer.Result>)*//*
-    }*/
 
     private fun isFbAppInstalled():Boolean{
         try {
