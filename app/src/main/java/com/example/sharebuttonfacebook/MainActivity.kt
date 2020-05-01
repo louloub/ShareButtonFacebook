@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
@@ -29,6 +30,9 @@ class MainActivity : AppCompatActivity() {
                 val facebookUrlApp: String = getFacebookURL(this,facebookUrl)
                 facebookIntent.data = Uri.parse(facebookUrlApp)
                 this.startActivity(facebookIntent)
+            } else {
+                // TODO : testé si l'USER n'a pas l'app FB installé et prendre en compte ce cas si besoin
+                Log.d("tag", "Facebook App is note installed")
             }
         }
     }
@@ -51,7 +55,6 @@ class MainActivity : AppCompatActivity() {
         return try {
             val versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode
             if (versionCode >= 3002850) { // newer versions of fb app
-                // "fb://facewebmodal/f?href=" + url + "posts"
                 "fb://facewebmodal/f?href=$url"
 
             } else { // older versions of fb app
@@ -63,11 +66,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun isFbAppInstalled():Boolean{
-        try {
-            val info = packageManager.getApplicationInfo("com.facebook.katana", 0)
-            return true
+        return try {
+            packageManager.getApplicationInfo("com.facebook.katana", 0)
+            true
         } catch (e: PackageManager.NameNotFoundException) {
-            return false
+            false
         }
 
     }
